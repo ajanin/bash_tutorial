@@ -14,7 +14,7 @@ gzip wotw.txt
 ```
 
 ::: aside
-Aside: Most Bash commands print out help if you call them with `-h` or sometimes `--help`. Try it out with `gunzip` and `wc`! More complete help can usually be found in their man pages by calling e.g. `man wc`.
+Most Bash commands print out help if you call them with `-h` or sometimes `--help`. Try it out with `gunzip` and `wc`! More complete help can usually be found in their man pages by calling e.g. `man wc`.
 :::
 
 Doing it in two lines is fine, but we can do better! (This will be a recurring theme.)
@@ -27,13 +27,13 @@ What does `gunzip -c` do? It uncompresses `wotw.txt.gz`, but instead of writing 
 Voila! In a single line, you got the number of words in War of the Worlds without writing any files!
 
 ::: aside
-Aside: Both `gunzip` and `wc` will operate on files if you provide them as arguments, or on `stdin` if you don't. That's why `wc wotw.txt` and `gunzip -c wotw.txt.gz | wc -w` both work. This isn't anything special about Bash -- the authors of `gunzip` and `wc` coded them to do this, as it's pretty standard in Linux.
+Both `gunzip` and `wc` will operate on files if you provide them as arguments, or on `stdin` if you don't. That's why `wc wotw.txt` and `gunzip -c wotw.txt.gz | wc -w` both work. This isn't anything special about Bash -- the authors of `gunzip` and `wc` coded them to do this, as it's pretty standard in Linux.
 :::
 
 Just like a command that isn't followed by `|` prints its `stdout` to the terminal, if a command expects `stdin` but isn't preceded by `|`, it'll read from the keyboard. Try typing `wc` and hitting enter. Note that nothing happens. Type a few lines. Although it looks like nothing is happening, it's in fact sending those lines to `wc`'s `stdin`. You can signal you're done by hitting ctrl-D. `wc` now reports how many lines, words, and characters you typed.
 
 ::: aside
-Aside: In Bash, pressing ctrl-D sends an end-of-file (EOF) signal to whatever process is reading from `stdin`. If Bash itself is reading from `stdin` (that is, if you're about to type a command into a terminal), it will exit Bash! You can call `set -o ignoreeof` to prevent Bash from doing this. Add it to your `.bashrc` right now!
+In Bash, pressing ctrl-D sends an end-of-file (EOF) signal to whatever process is reading from `stdin`. If Bash itself is reading from `stdin` (that is, if you're about to type a command into a terminal), it will exit Bash! You can call `set -o ignoreeof` to prevent Bash from doing this. Add it to your `.bashrc` right now!
 :::
 
 # Count How Many Times Each Word Appears in War of the Worlds
@@ -53,7 +53,7 @@ gunzip -c wotw.txt.gz | tr ' ' '\n' | head
 The command above first uncompresses `wotw.txt.gz`, then replaces every space with a line break, then `head` prints the first few lines.
 
 ::: aside
-Aside: `\n` is used to represent newline in many Bash programs (including `tr`), but it is just a convention that the authors of programs follow. It's just two regular old characters.
+`\n` is used to represent newline in many Bash programs (including `tr`), but it is just a convention that the authors of programs follow. It's just two regular old characters.
 :::
 
 The `sort` command sorts in alphabetical order. It may seem strange to do this here, but it's required by `uniq`, which comes next in the pipeline. To check your knowledge, what do you think the following does? Try to work it out without copy/pasting it.
@@ -66,7 +66,7 @@ The `uniq` command removes a line if it's the same as the line immediately befor
 gunzip -c wotw.txt.gz | tr ' ' '\n' | sort | uniq -c | head
 ```
 
-That looks pretty weird, doesn't it? That's why I said the method is simple but not accurate -- it doesn't account for punctuation, blank lines, upper and lower case, etc. We'll fix that in a later section.
+The output looks pretty weird, doesn't it? That's why I said the method is simple but not accurate -- it doesn't account for punctuation, blank lines, upper and lower case, etc. We'll fix that in a later section.
 
 Here's the final command again:
 ```
@@ -75,7 +75,7 @@ gunzip -c wotw.txt.gz | tr ' ' '\n' | sort | uniq -c | sort -nr | head
 
 `sort -n` sorts in **numerical** rather than alphabetical order. `sort -r` reverses the order. Like many older Bash commands, command line options that are single letter can be mushed together, so `sort -nr` is the same as `sort -n -r`, and means to sort from highest number to lowest.
 
-## Cleaning Up
+## Handling Punctuation
 
 I frequently run exactly the pipeline from the last section for a quick and dirty word lists, but there's a problem. Try this:
 ```
@@ -122,7 +122,7 @@ This tries to list all files under `/etc` that start with `man`. This will fail 
 find /etc -name 'man*' > man_files.list
 ```
 
-Are you surprised by the result? Run `cat man_files.list` to see what it output.
+Are you surprised by the result? Run `cat man_files.list` to see what's in it.
 
 What's going on here is that `find` writes files it finds to its `stdout` and errors to its `stderr`. Just like `stdout`, `stderr` will end up printed in the terminal if it's not otherwise redirected. `>` redirected `stdout` to a file; `stderr` ended up on the terminal.
 
@@ -140,10 +140,10 @@ find /etc -name 'man*' 2> /dev/null | grep -v management
 
 The `find` command runs. The `2> /dev/null` causes `find`'s `stderr` to be discarded and the `|` causes `find`'s `stdout` to be passed to `grep`. `grep -v management` output all lines from its `stdin` to `stdout` except those containing "management". Since there's nothing redirecting `grep`'s `stdout`, it gets output to the terminal.
 
-For reasons lost to time, `2|` doesn't redirect `stderr` even though it really seems like it should. See section ??? for a work around.
+For reasons lost to time, `2|` doesn't redirect `stderr` even though it really seems like it should.
 
 ::: aside
-Aside: In Linux, the file system is used for lots of unusual stuff. Devices like microphones, network connections, and even information about what's running on your computer are all controlled through things that look like files in the file system. `/dev/null` is one of these. It isn't a "real" file, but rather something you can connect `stdout` or `stderr` to if you want to just discard it.
+In Linux, the file system is used for lots of unusual stuff. Devices like microphones, network connections, and even information about what's running on your computer are all controlled through things that look like files in the file system. `/dev/null` is one of these. It isn't a "real" file, but rather something you can connect `stdout` or `stderr` to if you want to just discard it.
 :::
 
 # What Common Words Aren't in War of the Worlds?
@@ -164,14 +164,14 @@ This suppresses lines that are only in the second and are in both. Try other com
 Now imagine `words1` contains all the words from War of the Worlds and `words2` contained a list of common words. What would the command be?
 
 ::: aside
-Aside: `comm` requires both input files to be sorted.
+`comm` requires both input files to be sorted.
 :::
 
 ## Running on War of the Worlds
 
 You can use (almost) the command we ran before to get all the unique words in War of the Worlds:
 ```
-gunzip -c wotw.txt.gz | tr 'A-Z' 'a-z' | tr -cs 'a-z' '\n' | sort -u > wotw.words
+gunzip -c wotw.txt.gz | tr 'A-Z' 'a-z' | tr -cs 'a-z' '\n' | sort -u > wotw_words.sorted
 ```
 
 The only difference is `sort -u`, which sorts its `stdin` and removes duplicate lines.
@@ -181,7 +181,66 @@ The file `1000_words.gz` in this repo's directory contains a list of 1000 common
 gunzip -c 1000_words.gz | sort > 1000_words.sorted
 ```
 
-How many of the words in `1000_words.sorted` do **not** occur in `wotw.words`?
+To count how many words in `1000_words.sorted` do **not** occur in `wotw_words.sorted`:
+```
+comm -1 -3 wotw_words.sorted 1000_words.sorted | wc -l
+```
+
+## Let's Do It In One Line!
+
+```
+comm -1 -3 <(gunzip -c wotw.txt.gz | tr 'A-Z' 'a-z' | tr -cs 'a-z' '\n' | sort -u) <(gunzip -c 1000_words.gz | sort) | wc -l
+```
+
+::: aside
+There's a reason they call it "code"!
+:::
+
+Let's break it down. You can think of `<(cmd)` as a Bash construct that runs `cmd` and stores its `stdout` into a new file. It then replaces the `<(cmd)` in the command you typed with the name of that file. So if you type:
+```
+wc <(echo foo bar baz)
+```
+
+The first thing that happens is Bash runs `echo foo bar baz` and stores it in a file named something like `/dev/fd/63`. It then runs `wc /dev/fd/63`.
+
+So the steps for our one-liner above are:
+
+1. Bash runs `gunzip -c wotw.txt.gz | tr 'A-Z' 'a-z' | tr -cs 'a-z' '\n' | sort -u` and stores it in e.g. `/dev/fd/63`.
+2. Bash runs `gunzip -c 1000_words.gz | sort` and stores it in e.g. `/dev/fd/64`.
+3. Bash runs `comm -1 -3 /dev/fd/63 /dev/fd/64 | wc -l`
+
+::: aside
+The steps are actually run simultaneously, so you can benefit from parallelism, but watch out if the command have side effects other than writing to `stdout`! Linux handles streaming the data -- it's not actually stored on the file system.
+:::
+
+The `<(cmd)` construct is known as "input process substitution", and you can use it anywhere you'd use a file that gets read.
+
+
+# Output Process Redirection
+
+There's also the construct `>(cmd)`, known as "output process substitution". You use it anywhere you'd normally use a file that you're writing to, but want to do addition processing on. Probably the most common usage is if you're processing something big, and you want to do more than one thing with the output without creating temporary files.
+
+Let's say I want to find all the chapter titles in War of the Worlds. I also want the number of words on each line and the number of characters on each line. Here's how I'd do it in three lines:
+```
+gunzip -c wotw.txt.gz | grep -E '^[A-Z ]+$' | grep -v CHAPTER > chapters
+gunzip -c wotw.txt.gz | awk '{print NF}' > words_per_line
+gunzip -c wotw.txt.gz | awk '{print length}' > characters_per_line
+```
+
+The first command finds lines that are all upper case, excludes ones that have the word "CHAPTER", and writes to the file "chapters". The second command uses `awk` to print the number of fields `NF` in each line and stores it in "words_per_line". The last command prints the length of each line.
+
+::: aside
+`awk` is itself a programming language. It's quite good and processing tabular text; that is, text separated by whitespace or other delimiters. It reads from its `stdin` and processes line by line. It's small and very fast.
+:::
+
+Let's do it in one line!
+```
+gunzip -c wotw.txt.gz | tee >(grep -E '^[A-Z ]+$' | grep -v CHAPTER > chapters) \
+                            >(awk '{print NF}' > words_per_line) \
+                      | awk '{print length}' > characters_per_line \
+```
+
+This example is somewhat contrived, but imagine your streaming something huge from a network connection and you want only subsets of the data.
 
 
 # A Whirlwind Tour of Useful Tools
@@ -189,7 +248,7 @@ How many of the words in `1000_words.sorted` do **not** occur in `wotw.words`?
 There are a huge number of tools that ship with Linux distributions, and even more available as packages. This section gives you a whirlwind tour of some of the more common ones.
 
 ::: aside
-Aside: All the tools introduced in this section take options I don't describe. If a command kinda seems like it could do what you want, try `-h` or `--help` and see if it does!
+All the tools introduced in this section take options I don't describe. If a command kinda seems like it could do what you want, try `-h` or `--help` and see if it does!
 ::: 
 
 awk

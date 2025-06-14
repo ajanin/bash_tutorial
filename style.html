@@ -24,6 +24,18 @@ aside, .aside {
     margin: 1.5em 0;
     font-size: 0.95em;
     color: #495057;
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    vertical-align: middle;
+}
+
+aside::before, .aside::before {
+    content: "Aside: ";
+    font-weight: bold;
+    color: #6c757d;
+    display: inline;
+    align-self: baseline;
 }
 
 </style>
