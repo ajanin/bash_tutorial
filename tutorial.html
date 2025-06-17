@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Bash Tutorial</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style>
+
+  code {
+      font-family: 'Courier New', Courier, monospace;
+  }
+
+  pre {
+      background-color: #f5f5f5;
+      margin-left: 10px;
+      margin-right: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+  }
+
+  pre code {
+      background-color: #f5f5f5;
+      font-size: 0.75em;
+  }
+
+  aside, .aside {
+      border-left: 4px solid #dee2e6;
+      padding: 0em 0.5em;
+      margin: 1.5em 0em;
+      font-size: 0.95em;
+      color: #495057;
+      position: relative;
+      display: inline-flex;
+      align-items: baseline;
+      vertical-align: middle;
+  }
+
+  aside::before, .aside::before {
+      content: "Aside:\00a0";
+      font-weight: bold;
+      color: #6c757d;
+      display: inline;
+      align-self: baseline;
+  }
+
+  </style>
+</head>
+<body>
+<h1 id="this-is-a-work-in-progress">!!! THIS IS A WORK IN PROGRESS
+!!!</h1>
+<h1 id="how-many-words-are-there-in-war-of-the-worlds">How Many Words
+Are There in War of the Worlds?</h1>
+<p>Let’s jump right in! How many words are there in the book War of the
+Worlds? It’s included in the repo as <code>wotw.txt.gz</code>, a plain
+text file that’s been compressed with gzip. You might be tempted to do
+it in Python, but it’s really quick in Bash:</p>
+<pre><code>gunzip wotw.txt.gz
+wc wotw.txt</code></pre>
+<p>The first command uncompresses <code>wotw.txt.gz</code> to
+<code>wotw.txt</code> and deletes <code>wotw.txt.gz</code>. The second
+command counts the lines, words, and characters in <code>wotw.txt</code>
+(<code>wc</code> stands for “word count”, but counts lines and
+characters too).</p>
+<p>The rest of the tutorial assumes <code>wotw.txt.gz</code> exists, so
+let’s recompress it.</p>
+<pre><code>gzip wotw.txt</code></pre>
+<div class="aside">
+<p>Most Bash commands print out help if you call them with
+<code>-h</code> or sometimes <code>--help</code>. Try it out with
+<code>gunzip</code> and <code>wc</code>! More complete help can usually
+be found in their man pages by calling e.g. <code>man wc</code>.</p>
+</div>
+<p>Doing it in two lines is fine, but we can do better! (This will be a
+recurring theme.)</p>
+<pre><code>gunzip -c wotw.txt.gz | wc -w</code></pre>
+<p>What does <code>gunzip -c</code> do? It uncompresses
+<code>wotw.txt.gz</code>, but instead of writing to a file, it writes to
+its <code>stdout</code> (which stands for “standard out”). The pipe
+symbol <code>|</code> means to pass <code>stdout</code> of the previous
+command to <code>stdin</code> (standard input) of the next command. So
+the command above uncompresses <code>wotw.txt.gz</code> and feeds it to
+<code>wc</code>, which counts the number of words and writes to its
+<code>stdout</code>. Since <code>wc</code> isn’t attached to anything
+(there’s no <code>|</code> after it), Bash prints it to the
+terminal.</p>
+<p>Voila! In a single line, you got the number of words in War of the
+Worlds without writing any files!</p>
+<div class="aside">
+<p>Both <code>gunzip</code> and <code>wc</code> will operate on files if
+you provide them as arguments, or on <code>stdin</code> if you don’t.
+That’s why <code>wc wotw.txt</code> and
+<code>gunzip -c wotw.txt.gz | wc -w</code> both work. This isn’t
+anything special about Bash – the authors of <code>gunzip</code> and
+<code>wc</code> coded them to do this, as it’s pretty standard in
+Linux.</p>
+</div>
+<p>Just like a command that isn’t followed by <code>|</code> prints its
+<code>stdout</code> to the terminal, if a command expects
+<code>stdin</code> but isn’t preceded by <code>|</code>, it’ll read from
+the keyboard. Try typing <code>wc</code> and hitting enter. Note that
+nothing happens. Type a few lines. Although it looks like nothing is
+happening, it’s in fact sending those lines to <code>wc</code>’s
+<code>stdin</code>. You can signal you’re done by hitting ctrl-D.
+<code>wc</code> now reports how many lines, words, and characters you
+typed.</p>
+<div class="aside">
+<p>In Bash, pressing ctrl-D sends an end-of-file (EOF) signal to
+whatever process is reading from <code>stdin</code>. If Bash itself is
+reading from <code>stdin</code> (that is, if you’re about to type a
+command into a terminal), it will exit Bash! You can call
+<code>set -o ignoreeof</code> to prevent Bash from doing this. Add it to
+your <code>.bashrc</code> right now!</p>
+</div>
+<h1
+id="count-how-many-times-each-word-appears-in-war-of-the-worlds">Count
+How Many Times Each Word Appears in War of the Worlds</h1>
+<p>We’ll start with a simple but not very accurate method.</p>
+<pre><code>gunzip -c wotw.txt.gz | tr &#39; &#39; &#39;\n&#39; | sort | uniq -c | sort -nr | head</code></pre>
+<p>Run it and try to make out what it’s doing, then we’ll work through
+from left to right.</p>
+<p>The <code>tr</code> command (“translate” or “transliterate”) reads
+from its <code>stdin</code>, converts some characters, and writes them
+to its <code>stdout</code>. In this particular case, any time it sees
+the space character (specified by <code>' '</code> above), it converts
+it to newline (specified by <code>'\n'</code> above). To see what this
+does, try:</p>
+<pre><code>gunzip -c wotw.txt.gz | tr &#39; &#39; &#39;\n&#39; | head</code></pre>
+<p>The command above first uncompresses <code>wotw.txt.gz</code>, then
+replaces every space with a line break, then <code>head</code> prints
+the first few lines.</p>
+<div class="aside">
+<p><code>\n</code> is used to represent newline in many Bash programs
+(including <code>tr</code>), but it is just a convention that the
+authors of programs follow. It’s just two regular old characters.</p>
+</div>
+<p>The <code>sort</code> command sorts in alphabetical order. It may
+seem strange to do this here, but it’s required by <code>uniq</code>,
+which comes next in the pipeline. To check your knowledge, what do you
+think the following does? Try to work it out without copy/pasting
+it.</p>
+<pre><code>gunzip -c wotw.txt.gz | tr &#39; &#39; &#39;\n&#39; | head | sort</code></pre>
+<p>The <code>uniq</code> command removes a line if it’s the same as the
+line immediately before it. The <code>-c</code> causes the count of the
+number of adjacent identical lines to be output before the line.
+Try:</p>
+<pre><code>gunzip -c wotw.txt.gz | tr &#39; &#39; &#39;\n&#39; | sort | uniq -c | head</code></pre>
+<p>The output looks pretty weird, doesn’t it? That’s why I said the
+method is simple but not accurate – it doesn’t account for punctuation,
+blank lines, upper and lower case, etc. We’ll fix that in a later
+section.</p>
+<p>Here’s the final command again:</p>
+<pre><code>gunzip -c wotw.txt.gz | tr &#39; &#39; &#39;\n&#39; | sort | uniq -c | sort -nr | head</code></pre>
+<p><code>sort -n</code> sorts in <strong>numerical</strong> rather than
+alphabetical order. <code>sort -r</code> reverses the order. Like many
+older Bash commands, command line options that are single letter can be
+mushed together, so <code>sort -nr</code> is the same as
+<code>sort -n -r</code>, and means to sort from highest number to
+lowest.</p>
+<div class="aside">
+<p>Each command in a pipeline of commands runs in parallel, and Linux
+handles all the buffering between commands. This typically makes
+one-liners faster than running each command separately.</p>
+</div>
+<h2 id="handling-punctuation">Handling Punctuation</h2>
+<p>I frequently run exactly the pipeline from the last section for a
+quick and dirty word lists, but there’s a problem. Try this:</p>
+<pre><code>echo &#39;Hello! My name is Adam.&#39; | tr &#39; &#39; &#39;\n&#39;</code></pre>
+<p>See how punctuation is attached to the words? We want “Hello” and
+“Adam”, not “Hello!” and “Adam.”. Here’s a little trick:</p>
+<pre><code>echo &#39;Hello! My name is Adam.&#39; | tr -c &#39;a-zA-Z&#39; &#39;\n&#39;</code></pre>
+<p>The <code>-c</code> argument to <code>tr</code> means to “complement”
+the characters in the match, so instead of matching letters, the above
+matches on all <strong>non-letters</strong>. This still isn’t perfect
+since it’s inserted newlines we don’t need. You can use the
+<code>-s</code> (“squeeze”) argument to <code>tr</code> to only insert
+one newline regardless of how many non-characters there are in a row.
+And while we’re at it, let’s convert uppercase to lowercase.</p>
+<pre><code>echo &#39;Hello! My name is Adam.&#39; | tr &#39;A-Z&#39; &#39;a-z&#39; | tr -cs &#39;a-z&#39; &#39;\n&#39;</code></pre>
+<p>There is one problem left. What happens here?</p>
+<pre><code>echo &quot;What&#39;s your name?&quot; | tr &#39;A-Z&#39; &#39;a-z&#39; | tr -cs &#39;a-z&#39; &#39;\n&#39;</code></pre>
+<p>We’re getting into edge cases, where it’s probably better to write a
+script or use an actual NLP package, so we’re not going to fix it.
+Here’s the final version:</p>
+<pre><code>gunzip -c wotw.txt.gz | tr &#39;A-Z&#39; &#39;a-z&#39; | tr -cs &#39;a-z&#39; &#39;\n&#39; | sort \
+                      | uniq -c | sort -nr | head</code></pre>
+<h1 id="errors">Errors</h1>
+<p>As a programming language, Bash is terrible at error handling. For
+anything big, you should be using a more modern language. But even on
+the command line, it’s useful to deal with errors. We’ll demonstrate
+with the <code>find</code> command:</p>
+<pre><code>find . -name &#39;*.html&#39; &gt; html_files.list</code></pre>
+<p>The <code>find</code> command looks for all files in or under the
+current directory that end with <code>.html</code> and writes them to
+its <code>stdout</code>. The <code>&gt;</code> takes <code>stdout</code>
+from the previous command and writes it to the file specified right
+after, overwriting if it already exists.</p>
+<p>What happens if there’s an error? Try the following:</p>
+<pre><code>find /etc -name &#39;man*&#39;</code></pre>
+<p>This tries to list all files under <code>/etc</code> that start with
+<code>man</code>. This will fail on directories you don’t have
+permission for. Notice that the errors are interspersed with the files
+it found. Try the following:</p>
+<pre><code>find /etc -name &#39;man*&#39; &gt; man_files.list</code></pre>
+<p>Are you surprised by the result? Run <code>cat man_files.list</code>
+to see what’s in it.</p>
+<p>What’s going on here is that <code>find</code> writes files it finds
+to its <code>stdout</code> and errors to its <code>stderr</code>. Just
+like <code>stdout</code>, <code>stderr</code> will end up printed in the
+terminal if it’s not otherwise redirected. <code>&gt;</code> redirected
+<code>stdout</code> to a file; <code>stderr</code> ended up on the
+terminal.</p>
+<p>You can redirect <code>stderr</code> using <code>2&gt;</code>:</p>
+<pre><code>find /etc -name &#39;man*&#39; &gt; man_files.list 2&gt; find_errors</code></pre>
+<p>Since both <code>stdout</code> and <code>stderr</code> are
+redirected, nothing is output to the terminal. The files found are in
+<code>man_files.list</code> and the errors are in
+<code>find_errors</code>.</p>
+<p>Let’s put it all together. Find all files that start with
+<code>man</code> under <code>/etc</code>, exclude ones that contain
+<code>management</code>, and throw away any error messages:</p>
+<pre><code>find /etc -name &#39;man*&#39; 2&gt; /dev/null | grep -v management</code></pre>
+<p>The <code>find</code> command runs. The <code>2&gt; /dev/null</code>
+causes <code>find</code>’s <code>stderr</code> to be discarded and the
+<code>|</code> causes <code>find</code>’s <code>stdout</code> to be
+passed to <code>grep</code>. <code>grep -v management</code> outputs all
+lines from its <code>stdin</code> to <code>stdout</code> except those
+containing “management”. Since there’s nothing redirecting
+<code>grep</code>’s <code>stdout</code>, it gets output to the
+terminal.</p>
+<p>For reasons lost to time, <code>2|</code> doesn’t redirect
+<code>stderr</code> even though it really seems like it should.</p>
+<div class="aside">
+<p>In Linux, the file system is used for lots of unusual stuff. Devices
+like microphones, network connections, and even information about what’s
+running on your computer are all controlled through things that look
+like files in the file system. <code>/dev/null</code> is one of these.
+It isn’t a “real” file, but rather something you can connect
+<code>stdout</code> or <code>stderr</code> to if you want to just
+discard it.</p>
+</div>
+<h1 id="command-substitution">Command Substitution</h1>
+<p>Anywhere in Bash that you could write a string, you can instead run a
+command and its <code>stdout</code> will be used. For example, you could
+write:</p>
+<pre><code>echo The number of words in War of the Worlds is 59923</code></pre>
+<p>But you could also write:</p>
+<pre><code>echo The number of words in War of the Worlds is $(gunzip -c wotw.txt.gz | wc -w)</code></pre>
+<p>Anything within the <code>$()</code> construct is executed as a
+command, and its <code>stdout</code> is used right in the same
+place.</p>
+<div class="aside">
+<p><code>$(cmd)</code> is the more modern way to write
+<code>`cmd`</code>, which you may see in older code.</p>
+</div>
+<p>The most common use of command substitution is probably setting
+variables:</p>
+<pre><code>nwords=$(gunzip -c wotw.txt.gz | wc -w)
+echo The number of words in War of the Worlds is $nwords</code></pre>
+<p>But you really can use it anywhere. Can you figure out what this
+does?</p>
+<pre><code>$(echo l)$(echo s) *.html</code></pre>
+<h1 id="what-common-words-arent-in-war-of-the-worlds">What Common Words
+Aren’t in War of the Worlds?</h1>
+<p>Let’s revisit War of the Worlds. What are common words that don’t
+appear in it? We’ll use the tool <code>comm</code> (for “common”) to
+figure it out. Take a look at the files <code>words1</code> and
+<code>words2</code> in this directory. Then run:</p>
+<pre><code>comm words1 words2</code></pre>
+<p>The first column of output lists lines in <code>words1</code> that
+are not in <code>words2</code>. The second lists lines in
+<code>words2</code> that are not in <code>words1</code>. The final
+column lists lines that are in both.</p>
+<p>You can suppress any of the columns with command line arguments. For
+example, to list only lines that are in the first file:</p>
+<pre><code>comm -2 -3 words1 words2</code></pre>
+<p>This suppresses lines that are only in the second and are in both.
+Try other combinations of <code>-1</code>, <code>-2</code>, and
+<code>-3</code> and see if they do what you’d expect.</p>
+<p>Now imagine <code>words1</code> contains all the words from War of
+the Worlds and <code>words2</code> contained a list of common words.
+What would the command be?</p>
+<div class="aside">
+<p><code>comm</code> requires both input files to be sorted.</p>
+</div>
+<h2 id="running-on-war-of-the-worlds">Running on War of the Worlds</h2>
+<p>You can use (almost) the command we ran before to get all the unique
+words in War of the Worlds:</p>
+<pre><code>gunzip -c wotw.txt.gz | tr &#39;A-Z&#39; &#39;a-z&#39; | tr -cs &#39;a-z&#39; &#39;\n&#39; | sort -u &gt; wotw_words.sorted</code></pre>
+<p>The only difference is <code>sort -u</code>, which sorts its
+<code>stdin</code> and removes duplicate lines.</p>
+<p>The file <code>1000_words.gz</code> in this repo’s directory contains
+a list of 1000 common words in order of how common they are. For later
+use, we need them sorted.</p>
+<pre><code>gunzip -c 1000_words.gz | sort &gt; 1000_words.sorted</code></pre>
+<p>To count how many words in <code>1000_words.sorted</code> do
+<strong>not</strong> occur in <code>wotw_words.sorted</code>:</p>
+<pre><code>comm -1 -3 wotw_words.sorted 1000_words.sorted | wc -l</code></pre>
+<h2 id="lets-do-it-in-one-line">Let’s Do It In One Line!</h2>
+<pre><code>comm -1 -3 &lt;(gunzip -c wotw.txt.gz | tr &#39;A-Z&#39; &#39;a-z&#39; | tr -cs &#39;a-z&#39; &#39;\n&#39; | sort -u) &lt;(gunzip -c 1000_words.gz | sort) | wc -l</code></pre>
+<div class="aside">
+<p>There’s a reason they call it “code”!</p>
+</div>
+<p>Let’s break it down. You can think of <code>&lt;(cmd)</code> as a
+Bash construct that runs <code>cmd</code> and stores its
+<code>stdout</code> into a new file. It then replaces the
+<code>&lt;(cmd)</code> in the command you typed with the name of that
+file. So if you type:</p>
+<pre><code>wc &lt;(echo foo bar baz)</code></pre>
+<p>The first thing that happens is Bash runs
+<code>echo foo bar baz</code> and stores it in a file named something
+like <code>/dev/fd/63</code>. It then runs
+<code>wc /dev/fd/63</code>.</p>
+<p>So the steps for our one-liner above are:</p>
+<ol type="1">
+<li>Bash runs
+<code>gunzip -c wotw.txt.gz | tr 'A-Z' 'a-z' | tr -cs 'a-z' '\n' | sort -u</code>
+and stores it in e.g. <code>/dev/fd/63</code>.</li>
+<li>Bash runs <code>gunzip -c 1000_words.gz | sort</code> and stores it
+in e.g. <code>/dev/fd/64</code>.</li>
+<li>Bash runs <code>comm -1 -3 /dev/fd/63 /dev/fd/64 | wc -l</code></li>
+</ol>
+<div class="aside">
+<p>The steps are actually run simultaneously, so you can benefit from
+parallelism, but watch out if the commands have side effects other than
+writing to <code>stdout</code>! Linux handles streaming the data – it’s
+not actually stored on the file system.</p>
+</div>
+<p>The <code>&lt;(cmd)</code> construct is known as “input process
+substitution”, and you can use it anywhere you’d use a file that gets
+read.</p>
+<h1 id="output-process-substitution">Output Process Substitution</h1>
+<p>There’s also the construct <code>&gt;(cmd)</code>, known as “output
+process substitution”. You use it anywhere you’d normally use a file
+that you’re writing to, but want to do additional processing on.
+Probably the most common usage is if you’re processing something big,
+and you want to do more than one thing with the output without creating
+temporary files.</p>
+<p>Let’s say I want to find all the chapter titles in War of the Worlds.
+I also want the number of words on each line and the number of
+characters on each line. Here’s how I’d do it in three lines:</p>
+<pre><code>gunzip -c wotw.txt.gz | grep -E &#39;^[A-Z ]+$&#39; | grep -v CHAPTER &gt; chapters
+gunzip -c wotw.txt.gz | awk &#39;{print NF}&#39; &gt; words_per_line
+gunzip -c wotw.txt.gz | awk &#39;{print length}&#39; &gt; characters_per_line</code></pre>
+<p>The first command finds lines that are all upper case, excludes ones
+that have the word “CHAPTER”, and writes to the file “chapters”. The
+second command uses <code>awk</code> to print the number of fields
+<code>NF</code> in each line and stores it in “words_per_line”. The last
+command prints the length of each line.</p>
+<div class="aside">
+<p><code>awk</code> is itself a programming language. It’s quite good
+and processing tabular text; that is, text separated by whitespace or
+other delimiters. It reads from its <code>stdin</code> and processes
+line by line. It’s small and very fast.</p>
+</div>
+<p>To do it in one line, we’ll use the <code>tee</code> command, which
+reads its <code>stdin</code> and copies to both its <code>stdout</code>
+<strong>and</strong> to all files specified on its command line. Imagine
+you want to write the current date to three files. The obvious way to do
+it is:</p>
+<pre><code>date &gt; file1
+cp file1 file2
+cp file1 file3</code></pre>
+<p>But we can do it in one line with:</p>
+<pre><code>date | tee file1 file2 &gt; file3</code></pre>
+<p><code>tee</code> writes to the files specified on its command line
+(<code>file1</code> and <code>file2</code>) and also to its
+<code>stdout</code> (which ends up in <code>file3</code>).</p>
+<p>So to process War of the Worlds and write the <code>chapters</code>,
+<code>words_per_line</code>, and <code>characters_per_line</code> files,
+we can replace the files with the output process substitution construct
+<code>&gt;()</code>:</p>
+<pre><code>gunzip -c wotw.txt.gz \
+  | tee &gt;(grep -E &#39;^[A-Z ]+$&#39; | grep -v CHAPTER &gt; chapters) \
+        &gt;(awk &#39;{print NF}&#39; &gt; words_per_line) \
+  | awk &#39;{print length}&#39; &gt; characters_per_line \</code></pre>
+<p>This uncompresses War of the Worlds and feeds it to the
+<code>stdin</code> of three different pipelines simultaneously:</p>
+<ol type="1">
+<li><code>grep -E '^[A-Z ]+$' | grep -v CHAPTER &gt; chapters</code></li>
+<li><code>awk '{print NF}' &gt; words_per_line</code></li>
+<li><code>awk '{print length}' &gt; characters_per_line</code></li>
+</ol>
+<p>This example is somewhat contrived, but imagine you’re streaming
+something huge from a network connection and you want only subsets of
+the data.</p>
+<div class="aside">
+<p>Another common use of <code>tee</code> is if you want to write
+results to a file <strong>and</strong> see them on your terminal. I use
+this all the time to monitor long jobs. Just run
+e.g. <code>longcmd | tee save.out</code>. Whatever <code>longcmd</code>
+writes to <code>stdout</code> will end up both in <code>save.out</code>
+and on the terminal (since <code>tee</code>’s <code>stdout</code> isn’t
+redirected).</p>
+</div>
+<h1 id="a-whirlwind-tour-of-useful-tools">A Whirlwind Tour of Useful
+Tools</h1>
+<p>There are a huge number of tools that ship with Linux distributions,
+and even more available as packages. This section gives you a whirlwind
+tour of some of the more common ones.</p>
+<p>Don’t reinvent the wheel!</p>
+<div class="aside">
+<p>All the tools introduced in this section take options I don’t
+describe. If a command kinda seems like it could do what you want, try
+<code>-h</code> or <code>--help</code> and see if it does!</p>
+</div>
+<ul>
+<li><p><strong>awk</strong> — <em>A mini programming language that
+excels at tabular data.</em><br />
+Example: Print the second word of each line of
+<code>wotw.txt.gz</code>:</p>
+<pre><code>gunzip -c wotw.txt.gz | awk &#39;{print $2}&#39;</code></pre></li>
+<li><p><strong>cat</strong> — <em>Copy all files specified on the
+command line to <code>stdout</code>. You can use <code>-</code> to mean
+<code>cat</code>’s <code>stdin</code>.</em><br />
+Example: Output the words in <code>words1</code>, <code>words2</code>,
+then the word “states”:</p>
+<pre><code>echo states | cat words1 words2 -</code></pre></li>
+<li><p><strong>comm</strong> — <em>Print lines in common between two
+files.</em><br />
+Example: Show words in <code>words1</code> that aren’t in
+<code>words2</code>:</p>
+<pre><code>comm -2 -3 words1 words2</code></pre></li>
+<li><p><strong>cut</strong> — <em>Extract fields from lines.</em><br />
+Example: Show the 2nd through 4th words in each line of
+<code>wotw.txt.gz</code>:</p>
+<pre><code>gunzip -c wotw.txt.gz | cut -f2-4 -d&#39; &#39;</code></pre></li>
+<li><p><strong>file</strong> - <em>Show information about the file
+type.</em></p>
+<pre><code>file wotw.txt.gz tutorial.html</code></pre></li>
+<li><p><strong>find</strong> - <em>A mini programming language to find
+files.</em> Example: List all plain files that are newer than
+<code>style.html</code>:</p>
+<pre><code>find . -type f -newer style.html</code></pre></li>
+<li><p><strong>grep</strong> - <em>Find lines matching a regular
+expression.</em> Example: Find all words in <code>wotw.txt.gz</code>
+that consist of a vowel followed by a consonant followed by a vowel:</p>
+<pre><code>gunzip -c wotw.txt.gz | grep -o &#39;\b[aeiou][^aeiou][aeiou]\b&#39;</code></pre></li>
+<li><p><strong>head</strong> - <em>Print the first N lines or characters
+of a file. Can also print all but the last N.</em> Example: Print the
+first 200 characters of <code>tutorial.html</code>:</p>
+<pre><code>head -c 200 tutorial.html</code></pre></li>
+<li><p><strong>less</strong> - <em>Show a file one page at a
+time.</em></p>
+<pre><code>gunzip -c wotw.txt.gz | less</code></pre></li>
+<li><p><strong>paste</strong> - <em>Combine files side-by-side.</em></p>
+<pre><code>paste words1 words2</code></pre></li>
+<li><p><strong>sed</strong> - <em>Mini language to modify files.</em>
+Example: Replace all strings of digits in <code>wotw.txt.gz</code> with
+“&lt;NUMBER&gt;”:</p>
+<pre><code>gunzip -c wotw.txt.gz | sed &#39;s/[0-9][0-9]*/&lt;NUMBER&gt;/g&#39;</code></pre></li>
+<li><p><strong>seq</strong> - <em>List numbers in order with
+formatting.</em></p>
+<pre><code>seq -f &#39;This is line %g&#39; 1 10</code></pre></li>
+<li><p><strong>shuf</strong> - <em>Efficiently extract lines at random
+without replacement.</em></p>
+<pre><code>gunzip -c wotw.txt.gz | shuf -n5</code></pre></li>
+<li><p><strong>sort</strong> - <em>Sort lines by various criteria.</em>
+Example: Sort <code>wotw.txt.gz</code> first in reverse alphabetical
+order of the first word, then in alphabetical order of the third
+word:</p>
+<pre><code>gunzip -c wotw.txt.gz | sort -k1,1r -k3,3</code></pre></li>
+<li><p><strong>tail</strong> - <em>Print the last N lines or characters
+of a file. Can also print starting at N.</em> Example: Print the third
+line onward of <code>tutorial.html</code>:</p>
+<pre><code>tail -n +3 tutorial.html</code></pre>
+<p><code>tail</code> can also monitor a file for new text, outputting as
+lines are added. This is useful for watching a running process. For
+example, you can watch system logs in real time with:</p>
+<pre><code>tail -f /var/log/syslog</code></pre></li>
+<li><p><strong>tee</strong> - <em>Copies its <code>stdin</code> to files
+named on the command and its <code>stdout</code>.</em> Example: Create
+three files with the current date:</p>
+<pre><code>date | tee file1 file2 &gt; file3</code></pre></li>
+</ul>
+<h1 id="quoting">Quoting</h1>
+<p>Run the following:</p>
+<pre><code>echo    Hello   my   name  is    Adam</code></pre>
+<p>Are you surprised by the result? To explain, start by looking at
+<code>echo.py</code>:</p>
+<pre><code>cat echo.py</code></pre>
+<p>This is just a simplistic example of <code>echo</code> written in
+Python. It shows what arguments the program actually gets.</p>
+<div class="aside">
+<p>In Linux and similar environments, arguments are always strings.</p>
+</div>
+<p>Try calling:</p>
+<pre><code>./echo.py     Hello   my   name  is    Adam</code></pre>
+<p>What’s happening is Bash does a lot of processing of the command line
+you type before it calls the command. You’ve seen a bunch of that in the
+examples – process substitution, command substitution, even variables.
+Try the following:</p>
+<pre><code>name=Adam
+./echo.py    Hello   my   name  is    $name</code></pre>
+<p>See that <code>$name</code> has been replaced by “Adam” before
+<code>echo.py</code> sees it? Well, another thing Bash does when
+processing the command line is remove extra white space. To pass strings
+that contain whitespace, you have to use quotes:</p>
+<pre><code>./echo.py &#39;    Hello   my   name  is    $name&#39;</code></pre>
+<p>What the single quote does is tell Bash to treat everything between
+the quotes as a single argument, ignoring all special characters. So the
+above command passes only <em>one</em> argument to <code>echo.py</code>,
+and it contains the string <code>$name</code> rather than “Adam”. Try to
+predict what this will do then run it and see how you did!</p>
+<pre><code>./echo.py &#39;    Hello   my   name  is&#39;    $name</code></pre>
+<p>Bash also supports double quotes. They’re similar to single quotes,
+but <code>$</code> <strong>is</strong> expanded, both for variables and
+command substitution:</p>
+<pre><code>book=wotw
+./echo.py &quot;   The book $book has:  $(gunzip -c $book.txt.gz | wc -w) words.&quot;</code></pre>
+<p>You can use single quotes within double quotes and double quotes
+within single quotes. <strong>BUT</strong> the inner quotes have no
+special meaning!</p>
+<pre><code>./echo.py &quot;The book is called &#39;$book&#39;&quot;
+./echo.py &#39;The book is called &quot;$book&quot;&#39;</code></pre>
+<p>The last type of quoting uses the backslash character <code>\</code>.
+It tells bash to ignore any special meaning of the following character
+(including whitespace!). Compare and contrast:</p>
+<pre><code>./echo.py The book is called &quot;$book&quot;
+./echo.py The book is called \&quot;$book\&quot;
+./echo.py &quot;The book is called \&quot;$book\&quot;&quot;</code></pre>
+<p>Now for a doozy:</p>
+<pre><code>./echo.py &quot;The book is called &quot;$book&quot;&quot;</code></pre>
+<p>The problem is that Bash looks for quote from left to right. So first
+it finds <code>"The book is called "</code> and substitutes
+<code>The book is called</code>. Then it sees <code>$book</code> and
+substitutes <code>wotw</code>. Lastly, it sees <code>""</code> and
+substitutes the empty string. Since there are no unquoted spaces, it’s
+one argument.</p>
+</body>
+</html>

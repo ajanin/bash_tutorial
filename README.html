@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Bash Tutorial README</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style>
+
+  code {
+      font-family: 'Courier New', Courier, monospace;
+  }
+
+  pre {
+      background-color: #f5f5f5;
+      margin-left: 10px;
+      margin-right: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+  }
+
+  pre code {
+      background-color: #f5f5f5;
+      font-size: 0.75em;
+  }
+
+  aside, .aside {
+      border-left: 4px solid #dee2e6;
+      padding: 0em 0.5em;
+      margin: 1.5em 0em;
+      font-size: 0.95em;
+      color: #495057;
+      position: relative;
+      display: inline-flex;
+      align-items: baseline;
+      vertical-align: middle;
+  }
+
+  aside::before, .aside::before {
+      content: "Aside:\00a0";
+      font-weight: bold;
+      color: #6c757d;
+      display: inline;
+      align-self: baseline;
+  }
+
+  </style>
+</head>
+<body>
+<h1 id="this-is-a-work-in-progress">!!! THIS IS A WORK IN PROGRESS
+!!!</h1>
+<h1 id="bash-tutorial">Bash Tutorial</h1>
+<p>This is a tutorial for bash by Adam Janin. It is intended for people
+who have a passing familiarity with bash (e.g. you know what a path is,
+<code>cd ~/git/bash_tutorial</code> makes sense to you, etc.). It is
+inspired by <a
+href="https://www.cs.upc.edu/~padro/Unixforpoets.pdf">Unix for Poets</a>
+by Ken Church (probably from the early ’90s), but has been updated for
+more modern sensibilities.</p>
+<h1 id="installation">Installation</h1>
+<pre><code>mkdir -p ~/git
+cd ~/git
+git clone https://github.com/ajanin/bash_tutorial.git
+cd bash_tutorial</code></pre>
+<h1 id="how-to-read">How to Read</h1>
+<p>Many formats are supported. For plain text, read tutorial.md. For
+HTML, open tutorial.html in your browser. If you’re really old
+fashioned, you can print tutorial.pdf.</p>
+<p>You should have a terminal window with Bash open and be in the top
+level directory of the repository (the one with the file
+<code>wotw.txt.gz</code>), as the tutorial expects you to be interacting
+with Bash and using the files in this repo as you’re reading.</p>
+<h1 id="notes-on-building">Notes on Building</h1>
+<p>The source for the tutorial is <code>tutorial.md</code>. It’s written
+in <a href="https://pandoc.org/MANUAL.html#pandocs-markdown">Pandoc’s
+markdown format</a>. This is reasonably easy to read as plain text, but
+other formats are easy to generate with <a
+href="https://pandoc.org">Pandoc</a>. I generate the various format with
+the commands:</p>
+<pre><code>docker run --rm -v $(pwd):/data -u $(id -u):$(id -g) pandoc/core -s -H style.html --metadata pagetitle=&quot;Bash Tutorial&quot; -o tutorial.html tutorial.md</code></pre>
+<p>The file <code>1000_words.gz</code> is an extract of word counts I
+had lying around from a web scrape. I removed words with apostrophes for
+pedagogic reasons.</p>
+<p>The files <code>words1</code> and <code>words2</code> were generated
+with:</p>
+<pre><code>gunzip -c 1000_words.gz | shuf -n 10 | tee &gt;(shuf -n 5 | sort &gt; words1) | shuf -n5 | sort &gt; words2</code></pre>
+<p>Yes, I really do write one-liners like that routinely!</p>
+<h1 id="ignore-below-here">Ignore below here</h1>
+<p>Stuff below here is notes to myself on building and such. It’ll
+eventually be moved or removed.</p>
+<pre><code>bunzip2 -c ~/reddit/RC_2017-03/RC_2017-03.1gram.counts.bz2 | head -n 2000 | grep -v &quot;&#39;&quot; | grep -v &#39;&lt;&#39; | grep -v shit | grep -v fuck | grep -v &#39;damn&#39; | head -n 1000 | cut -f2 -d&#39; &#39; | gzip &gt; 1000_words.gz</code></pre>
+</body>
+</html>
