@@ -248,9 +248,5 @@ pedagogic reasons.</p>
 with:</p>
 <pre><code>gunzip -c 1000_words.gz | shuf -n 10 | tee &gt;(shuf -n 5 | sort &gt; words1) | shuf -n5 | sort &gt; words2</code></pre>
 <p>Yes, I really do write one-liners like that routinely!</p>
-<h1 id="ignore-below-here">Ignore below here</h1>
-<p>Stuff below here is notes to myself on building and such. It’ll
-eventually be moved or removed.</p>
-<pre><code>bunzip2 -c ~/reddit/RC_2017-03/RC_2017-03.1gram.counts.bz2 | head -n 2000 | grep -v &quot;&#39;&quot; | grep -v &#39;&lt;&#39; | grep -v shit | grep -v fuck | grep -v &#39;damn&#39; | head -n 1000 | cut -f2 -d&#39; &#39; | gzip &gt; 1000_words.gz</code></pre>
 </body>
 </html>

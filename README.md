@@ -36,11 +36,3 @@ gunzip -c 1000_words.gz | shuf -n 10 | tee >(shuf -n 5 | sort > words1) | shuf -
 ```
 
 Yes, I really do write one-liners like that routinely!
-
-# Ignore below here
-
-Stuff below here is notes to myself on building and such. It'll eventually be moved or removed.
-
-```
-bunzip2 -c ~/reddit/RC_2017-03/RC_2017-03.1gram.counts.bz2 | head -n 2000 | grep -v "'" | grep -v '<' | grep -v shit | grep -v fuck | grep -v 'damn' | head -n 1000 | cut -f2 -d' ' | gzip > 1000_words.gz
-```
