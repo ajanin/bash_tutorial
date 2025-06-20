@@ -19,6 +19,8 @@ Many formats are supported. For plain text, read tutorial.md. For HTML, open tut
 
 You should have a terminal window with Bash open and be in the top level directory of the repository (the one with the file `wotw.txt.gz`), as the tutorial expects you to be interacting with Bash and using the files in this repo as you're reading.
 
+You can read the HTML on github: [README.hmtl](https://ajanin.github.io/bash_tutorial) [tutorial.html](https://ajanin.github.io/bash_tutorial/tutorial.html)
+
 # Notes on Building
 
 The source for the tutorial is `tutorial.md`. It's written in [Pandoc's markdown format](https://pandoc.org/MANUAL.html#pandocs-markdown). This is reasonably easy to read as plain text, but other formats are easy to generate with [Pandoc](https://pandoc.org). I generate
