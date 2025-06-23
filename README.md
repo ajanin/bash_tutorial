@@ -21,10 +21,11 @@ You should have a terminal window with Bash open and be in the top level directo
 
 You can read the HTML on github: [README.hmtl](https://ajanin.github.io/bash_tutorial) [tutorial.html](https://ajanin.github.io/bash_tutorial/tutorial.html)
 
-# Notes on Building
+# Notes
 
-The source for the tutorial is `tutorial.md`. It's written in [Pandoc's markdown format](https://pandoc.org/MANUAL.html#pandocs-markdown). This is reasonably easy to read as plain text, but other formats are easy to generate with [Pandoc](https://pandoc.org). I generate
-the various format with the commands:
+This section contains notes on how the tutorial was assembled and how to regenerate some of the files (e.g. if you fork). Most readers needn't continue.
+
+The source for the tutorial is `tutorial.md`. It's written in [Pandoc's markdown format](https://pandoc.org/MANUAL.html#pandocs-markdown). This is reasonably easy to read as plain text, but other formats are easy to generate with [Pandoc](https://pandoc.org). I generate the various format with the commands:
 ```
 docker run --rm -v $(pwd):/data -u $(id -u):$(id -g) pandoc/core -s -H style.html --metadata pagetitle="Bash Tutorial" -o tutorial.html tutorial.md
 ```
