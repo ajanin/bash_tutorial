@@ -327,7 +327,7 @@ one-liners faster than running each command separately.</p>
 </div>
 <h2 id="handling-punctuation">Handling Punctuation</h2>
 <p>I frequently run exactly the pipeline from the last section for a
-quick and dirty word lists, but there’s a problem. Try this:</p>
+quick and dirty word list, but there’s a problem. Try this:</p>
 <pre><code>echo &#39;Hello! My name is Adam.&#39; | tr &#39; &#39; &#39;\n&#39;</code></pre>
 <p>See how punctuation is attached to the words? We want “Hello” and
 “Adam”, not “Hello!” and “Adam.”. Here’s a little trick:</p>
@@ -349,11 +349,11 @@ Here’s the final version:</p>
                       | uniq -c | sort -nr | head</code></pre>
 <h1 id="errors">Errors</h1>
 <p>As a programming language, Bash is terrible at error handling. For
-anything big, you should be using a more modern language. But even on
-the command line, it’s useful to deal with errors. We’ll demonstrate
-with the <code>find</code> command:</p>
+anything big, you should use a more modern language. But even on the
+command line, it’s useful to deal with errors. We’ll demonstrate with
+the <code>find</code> command:</p>
 <pre><code>find . -name &#39;*.html&#39; &gt; html_files.list</code></pre>
-<p>The <code>find</code> command looks for all files in or under the
+<p>This <code>find</code> command looks for all files in or under the
 current directory that end with <code>.html</code> and writes them to
 its <code>stdout</code>. The <code>&gt;</code> takes <code>stdout</code>
 from the previous command and writes it to the file specified right
@@ -442,7 +442,9 @@ Try other combinations of <code>-1</code>, <code>-2</code>, and
 <code>-3</code> and see if they do what you’d expect.</p>
 <p>Now imagine <code>words1</code> contains all the words from War of
 the Worlds and <code>words2</code> contained a list of common words.
-What would the command be?</p>
+What would the command be to list all the common words
+(<code>words2</code>) that don’t occur in War of the Worlds
+(<code>words1</code>)?</p>
 <div class="aside">
 <p><code>comm</code> requires both input files to be sorted.</p>
 </div>
@@ -486,8 +488,8 @@ in e.g. <code>/dev/fd/64</code>.</li>
 <div class="aside">
 <p>The steps are actually run simultaneously, so you can benefit from
 parallelism, but watch out if the commands have side effects other than
-writing to <code>stdout</code>! Linux handles streaming the data – it’s
-not actually stored on the file system.</p>
+writing to <code>stdout</code>! Also, Linux handles streaming the data –
+it’s very fast and not actually stored on the file system.</p>
 </div>
 <p>The <code>&lt;(cmd)</code> construct is known as “input process
 substitution”, and you can use it anywhere you’d use a file that gets
@@ -511,10 +513,10 @@ second command uses <code>awk</code> to print the number of fields
 <code>NF</code> in each line and stores it in “words_per_line”. The last
 command prints the length of each line.</p>
 <div class="aside">
-<p><code>awk</code> is itself a programming language. It’s quite good
-and processing tabular text; that is, text separated by whitespace or
-other delimiters. It reads from its <code>stdin</code> and processes
-line by line. It’s small and very fast.</p>
+<p><code>awk</code> is itself a programming language. It’s quite good at
+processing tabular text; that is, text separated by whitespace or other
+delimiters. It reads from its <code>stdin</code> and processes line by
+line. It’s small and very fast.</p>
 </div>
 <p>To do it in one line, we’ll use the <code>tee</code> command, which
 reads its <code>stdin</code> and copies to both its <code>stdout</code>
@@ -651,8 +653,8 @@ Python. It shows what arguments the program actually gets.</p>
 <pre><code>./echo.py     Hello   my   name  is    Adam</code></pre>
 <p>What’s happening is Bash does a lot of processing of the command line
 you type before it calls the command. You’ve seen a bunch of that in the
-examples – process substitution, command substitution, even variables.
-Try the following:</p>
+examples – process substitution, command substitution, glob substitution
+(e.g. <code>*.html</code>), and even variables. Try the following:</p>
 <pre><code>name=Adam
 ./echo.py    Hello   my   name  is    $name</code></pre>
 <p>See that <code>$name</code> has been replaced by “Adam” before
@@ -690,5 +692,17 @@ it finds <code>"The book is called "</code> and substitutes
 substitutes <code>wotw</code>. Lastly, it sees <code>""</code> and
 substitutes the empty string. Since there are no unquoted spaces, it’s
 one argument.</p>
+<h2 id="try-some">Try Some!</h2>
+<p>Figure out what the following will output. Then run them and grade
+yourself!</p>
+<pre><code>./echo.py *.html
+./echo.py &quot;*.html&quot;
+./echo.py &#39;*.html&#39;
+./echo.py \*.html
+
+file=README
+./echo.py $file*
+./echo.py &quot;$file*&quot;
+./echo.py &#39;$file*&#39;</code></pre>
 </body>
 </html>

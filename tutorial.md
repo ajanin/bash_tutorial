@@ -84,7 +84,7 @@ Each command in a pipeline of commands runs in parallel, and Linux handles all t
 
 ## Handling Punctuation
 
-I frequently run exactly the pipeline from the last section for a quick and dirty word lists, but there's a problem. Try this:
+I frequently run exactly the pipeline from the last section for a quick and dirty word list, but there's a problem. Try this:
 ```
 echo 'Hello! My name is Adam.' | tr ' ' '\n'
 ```
@@ -112,12 +112,12 @@ gunzip -c wotw.txt.gz | tr 'A-Z' 'a-z' | tr -cs 'a-z' '\n' | sort \
 
 # Errors
 
-As a programming language, Bash is terrible at error handling. For anything big, you should be using a more modern language. But even on the command line, it's useful to deal with errors. We'll demonstrate with the `find` command:
+As a programming language, Bash is terrible at error handling. For anything big, you should use a more modern language. But even on the command line, it's useful to deal with errors. We'll demonstrate with the `find` command:
 ```
 find . -name '*.html' > html_files.list
 ```
 
-The `find` command looks for all files in or under the current directory that end with `.html` and writes them to its `stdout`. The `>` takes `stdout` from the previous command and writes it to the file specified right after, overwriting if it already exists.
+This `find` command looks for all files in or under the current directory that end with `.html` and writes them to its `stdout`. The `>` takes `stdout` from the previous command and writes it to the file specified right after, overwriting if it already exists.
 
 What happens if there's an error? Try the following:
 ```
@@ -198,7 +198,7 @@ comm -2 -3 words1 words2
 
 This suppresses lines that are only in the second and are in both. Try other combinations of `-1`, `-2`, and `-3` and see if they do what you'd expect.
 
-Now imagine `words1` contains all the words from War of the Worlds and `words2` contained a list of common words. What would the command be?
+Now imagine `words1` contains all the words from War of the Worlds and `words2` contained a list of common words. What would the command be to list all the common words (`words2`) that don't occur in War of the Worlds (`words1`)?
 
 ::: aside
 `comm` requires both input files to be sorted.
@@ -247,7 +247,7 @@ So the steps for our one-liner above are:
 3. Bash runs `comm -1 -3 /dev/fd/63 /dev/fd/64 | wc -l`
 
 ::: aside
-The steps are actually run simultaneously, so you can benefit from parallelism, but watch out if the commands have side effects other than writing to `stdout`! Linux handles streaming the data -- it's not actually stored on the file system.
+The steps are actually run simultaneously, so you can benefit from parallelism, but watch out if the commands have side effects other than writing to `stdout`! Also, Linux handles streaming the data -- it's very fast and not actually stored on the file system.
 :::
 
 The `<(cmd)` construct is known as "input process substitution", and you can use it anywhere you'd use a file that gets read.
@@ -267,7 +267,7 @@ gunzip -c wotw.txt.gz | awk '{print length}' > characters_per_line
 The first command finds lines that are all upper case, excludes ones that have the word "CHAPTER", and writes to the file "chapters". The second command uses `awk` to print the number of fields `NF` in each line and stores it in "words_per_line". The last command prints the length of each line.
 
 ::: aside
-`awk` is itself a programming language. It's quite good and processing tabular text; that is, text separated by whitespace or other delimiters. It reads from its `stdin` and processes line by line. It's small and very fast.
+`awk` is itself a programming language. It's quite good at processing tabular text; that is, text separated by whitespace or other delimiters. It reads from its `stdin` and processes line by line. It's small and very fast.
 :::
 
 To do it in one line, we'll use the `tee` command, which reads its `stdin` and copies to both its `stdout` **and** to all files specified on its command line. Imagine you want to write the current date to three files. The obvious way to do it is:
@@ -434,7 +434,7 @@ Try calling:
 ./echo.py     Hello   my   name  is    Adam
 ```
 
-What's happening is Bash does a lot of processing of the command line you type before it calls the command. You've seen a bunch of that in the examples -- process substitution, command substitution, even variables. Try the following:
+What's happening is Bash does a lot of processing of the command line you type before it calls the command. You've seen a bunch of that in the examples -- process substitution, command substitution, glob substitution (e.g. `*.html`), and even variables. Try the following:
 ```
 name=Adam
 ./echo.py    Hello   my   name  is    $name
@@ -474,4 +474,23 @@ Now for a doozy:
 ```
 
 The problem is that Bash looks for quote from left to right. So first it finds `"The book is called "` and substitutes `The book is called `. Then it sees `$book` and substitutes `wotw`. Lastly, it sees `""` and substitutes the empty string. Since there are no unquoted spaces, it's one argument.
+
+## Try Some!
+
+Figure out what the following will output. Then run them and grade yourself!
+```
+./echo.py *.html
+./echo.py "*.html"
+./echo.py '*.html'
+./echo.py \*.html
+
+file=README
+./echo.py $file*
+./echo.py "$file*"
+./echo.py '$file*'
+```
+
+
+
+
 
